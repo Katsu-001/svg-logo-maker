@@ -30,3 +30,41 @@ function writeLogoFile(fileName, userInput) {
         err ? console.log(err) : console.log("Generated logo.svg");
       });
 }
+
+//prompt questions
+function getUserInput() {
+    inquirer
+        .prompt([
+                {
+                    type: "input",
+                    message: "Enter up to three characters for your logo",
+                    name: "text"
+                },
+                {
+                    type: "input",
+                    message: "Enter either a color or hex code for your texts color",
+                    name: "textColor"
+                },
+                {
+                    type: "list",
+                    message: "What shape should your logo use?",
+                    choices: ["Triangle", "Square", "Circle"],
+                    name: "shape"
+                },
+                {
+                    type: "input",
+                    message: "Enter either a color or a hex code for your for your shape color",
+                    name: "shapeColor"
+                }
+        ])
+        .then((answers) => {
+            if(answers.text.length > 3) {
+                console.log("The text you entered was greated than 3 characters")
+                getUserInput()
+            } else
+            writeLogoFile("logo.svg", answers)
+        })
+
+}
+
+getUserInput()
